@@ -71,4 +71,4 @@ Pinchamos con el botón derecho a la máquina virtual que ya tenemos y seleccion
 
 Le pondremos de nombre "Debian 2" y marcaremos la opción "Reinicializar la dirección MAC de todas las tarjetas de red", y en la siguiente pantalla elegimos "Clonación completa".
 
-Ahora para evitar confusiones con el nombre de las máquinas, habrá que cambiar el nombre de máquina de "Debian 2". Para ello la arrancamos y cambiamos debian1 por debian2 en los archivos **/etc/hosts** y **/etc/hostname**. Luego reiniciamos la máquina y listo. ¡Ya tenemos 2 máquinas iguales listas para realizar las prácticas!
+Ahora para evitar confusiones con el nombre de las máquinas, habrá que cambiar el nombre de máquina de "Debian 2". Para ello la arrancamos y cambiamos debian1 por debian2 en los archivos **/etc/hosts** y **/etc/hostname**. Ahora cambiamos la dirección 192.168.1.100 por 192.168.1.200 en **/etc/network/interfaces** , reiniciamos la máquina y listo. ¡Ya tenemos 2 máquinas iguales listas para realizar las prácticas!
