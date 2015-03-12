@@ -46,6 +46,14 @@ $ sudo ./VBoxLinuxAdditions.run
 
 Y tecleamos **yes** cuando nos pregunte.
 
+Desactivaremos ahora la interfaz gráfica. Para ello ejecutaremos
+
+```
+# update-rc.d gdm3 remove
+```
+
+Y comentaremos la única línea que hay en **/etc/X11/default-display-manager**. Al arrancar ya no arrancará gdm3 y por lo tanto Gnome.
+
 Ahora es tiempo de configurar la red interna. Abrimos el archivo **/etc/network/interfaces** y añadimos al final lo siguiente
 
 ```
