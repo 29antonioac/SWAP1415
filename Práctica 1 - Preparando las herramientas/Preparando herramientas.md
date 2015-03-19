@@ -20,7 +20,7 @@ Ahora sólo tenemos que montar la imagen en dicha máquina virtual e ir siguiend
 
 Durante el proceso de instalación nos aparece el menú de tasksel, eligiendo con la tecla Espacio estas opciones
 
--- Insertar imagen
+![Imagen Tasksel](Imágenes/Tasksel.png)
 
 La interfaz gráfica la instalaremos para casos de urgencia (el espacio en disco no es problema), pero la desactivaremos cuando terminemos, ya que nos ocupa memoria RAM valiosísima para nuestro servidor.
 
@@ -75,8 +75,9 @@ Para evitarnos otra vez este trabajo, vamos a utilizar una función de VirtualBo
 
 Pinchamos con el botón derecho a la máquina virtual que ya tenemos y seleccionamos **clonar**
 
--- Insertar imagen
-
 Le pondremos de nombre "Debian 2" y marcaremos la opción "Reinicializar la dirección MAC de todas las tarjetas de red", y en la siguiente pantalla elegimos "Clonación completa".
+
+![Imagen Clonar](Imágenes/Clonar.png)
+![Imagen Clonar2](Imágenes/Clonar2.png)
 
 Ahora para evitar confusiones con el nombre de las máquinas, habrá que cambiar el nombre de máquina de "Debian 2". Para ello la arrancamos y cambiamos debian1 por debian2 en los archivos **/etc/hosts** y **/etc/hostname**. Ahora cambiamos la dirección 192.168.1.100 por 192.168.1.200 en **/etc/network/interfaces** , reiniciamos la máquina y listo. ¡Ya tenemos 2 máquinas iguales listas para realizar las prácticas!
