@@ -69,7 +69,7 @@ Y dejamos la passphrase en blanco.
 
 Ahora probamos a conectarnos desde debian2 a debian1 y servirá sin contraseña
 
--- Insertar imagen
+![Imagen SSH](Imágenes/SSH.png)
 
 ## Programar tareas con crontab
 
@@ -84,3 +84,5 @@ Y añadimos esta línea
 ```
 * * * * * root rsync -avz --delete --exclude=**/stats --exclude=**/error --exclude=**/files/pictures -e "ssh -l root" root@debian1:/var/www/ /var/www/
 ```
+
+![Imagen crontab](Imágenes/Crontab.png)
