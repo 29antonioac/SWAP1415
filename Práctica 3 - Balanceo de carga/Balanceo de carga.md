@@ -78,7 +78,7 @@ root@debianBalanceador:~# aptitude update && aptitude install -y haproxy joe
 
 El paquete **[joe](http://en.wikipedia.org/wiki/Joe%27s_Own_Editor)** es un editor de texto avanzado, que instalaremos por si nos hace falta, aunque usaré nano por comodidad.
 
-Editamos el archivo **/etc/haproxy/haproxy.cfg**
+Editamos el archivo **/etc/haproxy/haproxy.cfg** y añadimos al final lo siguiente.
 
 ```
 # Configuración propia
