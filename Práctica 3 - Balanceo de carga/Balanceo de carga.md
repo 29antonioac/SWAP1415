@@ -39,10 +39,10 @@ server{
 }
 ```
 
-Paramos el servidor apache y lanzamos nginx
+Paramos el servidor apache, evitamos que se ejecute al bootear y lanzamos nginx
 
 ```
-root@debianBalanceador:~# apachectl stop
+root@debianBalanceador:~# apachectl stop && update-rc.d apache2 remove
 root@debianBalanceador:~# service nginx restart
 ```
 
