@@ -25,56 +25,57 @@ function desviacionTipica()
   echo "$desv"
 }
 
-input=( 2 3 )
-input=("0.556" "1.456" "45.111" "7.812" "5.001")
-echo "Input=${input[@]}"
-mediaAritmetica input[@]
-desviacionTipica input[@]
+PETICIONES=( 1000 2000 4000 8000 16000 32000 )
+PRUEBAS=10
+declare -A URLS=( ["granja_nginx"]="http://www.servidorswap.net/index.html" ["servidor"]="http://debian1/index.html" )
+# declare -A URLS=( ["granja_haproxy"]="http://www.servidorswap.net/index.html")
 
-# PETICIONES=( 1000 2000 4000 8000 16000 32000 )
-# #PETICIONES=( 1000 2000 4000 )
-# PRUEBAS=10
-# declare -A URLS=( ["granja_nginx"]="http://www.servidorswap.net/index.html" ["servidor"]="http://debian1/index.html" )
-# #declare -A URLS=( ["granja_haproxy"]="http://www.servidorswap.net/index.html")
-#
-# for destino in ${!URLS[@]}
-# do
-#   if [ -a "../Datos/ab-$destino.dat" ]; then rm ../Datos/ab-$destino.dat; fi
-#   #if [ -a "../Datos/ab-desv-$destino.dat" ]; then rm ../Datos/ab-desv-$destino.dat; fi
-# done
-#
-#
-# for peticiones in ${PETICIONES[@]}
-# do
-#   for destino in ${!URLS[@]}
-#   do
-#     testTime=()
-#     failedRequests=()
-#     requestPerSecond=()
-#     timePerRequest=()
-#     salida=""
-#     echo "Probando con $peticiones peticiones en $destino..."
-#     # Realizar número de pruebas y acumular tiempos
-#     for (( prueba=1; prueba<=$PRUEBAS; prueba++ ))
-#     do
-#       salida=`ab -n $peticiones -c 20 ${URLS[$destino]} 2> /dev/null`
-#       testTime+=(`echo $salida | egrep "Time taken for tests:" | tr -s ' ' | cut -d" " -f5`)
-#       failedRequests+=(`echo $salida | egrep "Failed requests:" | tr -s ' ' | cut -d" " -f3`)
-#       requestPerSecond+=(`echo $salida | egrep "Requests per second:" | tr -s ' ' | cut -d" " -f4`)
-#       timePerRequest+=(`echo $salida | egrep "Time per request:" | egrep "\(mean\)" | tr -s ' ' | cut -d" " -f4`)
-#     done
-#     # Calcular media aritmética
-#     media=`echo "($media + $suma) / $PRUEBAS" | bc -l`
-#     #echo -e "$peticiones $media" >> ../Datos/ab-media-$destino.dat
-#
-#     # Calculamos la desviación típica
-#     desv=0
-#     for t in ${valores[@]}
-#     do
-#       desv=`echo "$desv + ($t - $media)^2" | bc -l`
-#     done
-#     desv=`echo "sqrt($desv / $PRUEBAS)" | bc -l`
-#     # Añadimos a la tabla de valores con formato peticiones media desv
-#     echo -e "$peticiones $media $desv" >> ../Datos/ab-$destino.dat
-#   done
-# done
+for destino in ${!URLS[@]}
+do
+  if [ -a "  ../Datos/ab-$destino-testTime.dat" ]; then rm ../Datos/ab-$destino-testTime.dat; fi
+  if [ -a "  ../Datos/ab-$destino-failedRequests.dat" ]; then rm ../Datos/ab-$destino-failedRequests.dat; fi
+  if [ -a "  ../Datos/ab-$destino-requestsPerSecond.dat" ]; then rm ../Datos/ab-$destino-requestsPerSecond.dat; fi
+  if [ -a "  ../Datos/ab-$destino-timePerRequest.dat" ]; then rm ../Datos/ab-$destino-timePerRequest.dat; fi
+done
+
+
+for peticiones in ${PETICIONES[@]}
+do
+  for destino in ${!URLS[@]}
+  do
+    testTime=()
+    failedRequests=()
+    requestsPerSecond=()
+    timePerRequest=()
+    salida=""
+    echo "Probando con $peticiones peticiones en $destino..."
+    
+    # Realizar número de pruebas y acumular tiempos
+    for (( prueba=1; prueba<=$PRUEBAS; prueba++ ))
+    do
+      salida=`ab -n $peticiones -c 20 ${URLS[$destino]} 2> /dev/null`
+      testTime+=(`echo "$salida" | egrep "Time taken for tests:" | tr -s ' ' | cut -d" " -f5`)
+      failedRequests+=(`echo "$salida" | egrep "Failed requests:" | tr -s ' ' | cut -d" " -f3`)
+      requestsPerSecond+=(`echo "$salida" | egrep "Requests per second:" | tr -s ' ' | cut -d" " -f4`)
+      timePerRequest+=(`echo "$salida" | egrep "Time per request:" | egrep "\(mean\)" | tr -s ' ' | cut -d" " -f4`)
+    done
+
+    # Calcular media aritmética
+    media_testTime=`mediaAritmetica testTime[@]`
+    media_failedRequests=`mediaAritmetica failedRequests[@]`
+    media_requestsPerSecond=`mediaAritmetica requestsPerSecond[@]`
+    media_timePerRequest=`mediaAritmetica timePerRequest[@]`
+
+    # Calculamos la desviación típica
+    desv_testTime=`desviacionTipica testTime[@]`
+    desv_failedRequests=`desviacionTipica failedRequests[@]`
+    desv_requestsPerSecond=`desviacionTipica requestsPerSecond[@]`
+    desv_timePerRequest=`desviacionTipica timePerRequest[@]`
+
+    # Añadimos a la tabla de valores con formato peticiones media desv
+    echo "$peticiones $media_testTime $desv_testTime" >> ../Datos/ab-$destino-testTime.dat
+    echo "$peticiones $media_failedRequests $desv_failedRequests" >> ../Datos/ab-$destino-failedRequests.dat
+    echo "$peticiones $media_requestsPerSecond $desv_requestsPerSecond" >> ../Datos/ab-$destino-requestsPerSecond.dat
+    echo "$peticiones $media_timePerRequest $desv_timePerRequest" >> ../Datos/ab-$destino-timePerRequest.dat
+  done
+done

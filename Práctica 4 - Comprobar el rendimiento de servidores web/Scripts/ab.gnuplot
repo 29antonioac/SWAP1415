@@ -1,22 +1,53 @@
 #!/bin/gnuplot
 
+# Parámetros comunes a todas las gráficas
 set xr [0:35000]
-set yr [0:1.5]
-set xtics ( 1000,2000,4000,8000,16000,32000);
+set xtics ( 1000,2000,4000,8000,16000,32000 );
 set xtics font ",11"
 set xlabel "Peticiones totales"
-set ylabel "Tiempo por petición (segundos)"
 set term png size 1280,768
-set output '../Imágenes/ab.png'
 
-#plot "file.txt" using 1:($2-$3):($2-$3):($2+$3):($2+$3) with candlesticks
-#plot '../Datos/ab-granja_nginx.dat' title 'granja_nginx' with candlesticks, \
-#'../Datos/ab-granja_haproxy.dat' title 'granja_haproxy' with candlesticks , \
-#'../Datos/ab-servidor.dat' title 'servidor' with candlesticks
 
-plot '../Datos/ab-servidor.dat'  using 1:2:3 notitle with yerrorbars, \
-'../Datos/ab-servidor.dat' using 1:2 title 'Servidor web' with lines, \
-'../Datos/ab-granja_nginx.dat'  using 1:2:3 notitle with yerrorbars, \
-'../Datos/ab-granja_nginx.dat' using 1:2 title 'Granja nginx' with lines, \
-'../Datos/ab-granja_haproxy.dat'  using 1:2:3 notitle with yerrorbars, \
-'../Datos/ab-granja_haproxy.dat' using 1:2 title 'Granja haproxy' with lines
+# Test time
+set ylabel "Tiempo del test (segundos)"
+set output '../Imágenes/ab-testTime.png'
+
+plot '../Datos/ab-servidor-testTime.dat'  using 1:2:3 notitle with yerrorbars, \
+'../Datos/ab-servidor-testTime.dat' using 1:2 title 'Servidor web' with lines, \
+'../Datos/ab-granja_nginx-testTime.dat'  using 1:2:3 notitle with yerrorbars, \
+'../Datos/ab-granja_nginx-testTime.dat' using 1:2 title 'Granja nginx' with lines, \
+'../Datos/ab-granja_haproxy-testTime.dat'  using 1:2:3 notitle with yerrorbars, \
+'../Datos/ab-granja_haproxy-testTime.dat' using 1:2 title 'Granja haproxy' with lines
+
+# Time per request
+set ylabel "Tiempo por petición (segundos)"
+set output '../Imágenes/ab-timePerRequest.png'
+
+plot '../Datos/ab-servidor-timePerRequest.dat'  using 1:2:3 notitle with yerrorbars, \
+'../Datos/ab-servidor-timePerRequest.dat' using 1:2 title 'Servidor web' with lines, \
+'../Datos/ab-granja_nginx-timePerRequest.dat'  using 1:2:3 notitle with yerrorbars, \
+'../Datos/ab-granja_nginx-timePerRequest.dat' using 1:2 title 'Granja nginx' with lines, \
+'../Datos/ab-granja_haproxy-timePerRequest.dat'  using 1:2:3 notitle with yerrorbars, \
+'../Datos/ab-granja_haproxy-timePerRequest.dat' using 1:2 title 'Granja haproxy' with lines
+
+# Requests per second
+set ylabel "Peticiones por segundo"
+set output '../Imágenes/ab-requestsPerSecond.png'
+
+plot '../Datos/ab-servidor-requestsPerSecond.dat'  using 1:2:3 notitle with yerrorbars, \
+'../Datos/ab-servidor-requestsPerSecond.dat' using 1:2 title 'Servidor web' with lines, \
+'../Datos/ab-granja_nginx-requestsPerSecond.dat'  using 1:2:3 notitle with yerrorbars, \
+'../Datos/ab-granja_nginx-requestsPerSecond.dat' using 1:2 title 'Granja nginx' with lines, \
+'../Datos/ab-granja_haproxy-requestsPerSecond.dat'  using 1:2:3 notitle with yerrorbars, \
+'../Datos/ab-granja_haproxy-requestsPerSecond.dat' using 1:2 title 'Granja haproxy' with lines
+
+# Peticiones fallidas
+set ylabel "Peticiones fallidas"
+set output '../Imágenes/ab-failedRequests.png'
+
+plot '../Datos/ab-servidor-failedRequests.dat'  using 1:2:3 notitle with yerrorbars, \
+'../Datos/ab-servidor-failedRequests.dat' using 1:2 title 'Servidor web' with lines, \
+'../Datos/ab-granja_nginx-failedRequests.dat'  using 1:2:3 notitle with yerrorbars, \
+'../Datos/ab-granja_nginx-failedRequests.dat' using 1:2 title 'Granja nginx' with lines, \
+'../Datos/ab-granja_haproxy-failedRequests.dat'  using 1:2:3 notitle with yerrorbars, \
+'../Datos/ab-granja_haproxy-failedRequests.dat' using 1:2 title 'Granja haproxy' with lines
