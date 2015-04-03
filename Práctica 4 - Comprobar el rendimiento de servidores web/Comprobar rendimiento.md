@@ -19,7 +19,17 @@ que es el que acabamos de crear.
 Para facilitar las pruebas, añadimos como ya sabemos a **/etc/hosts** las IP de ambas máquinas
 y les ponemos un nombre.
 
-Para conseguir las tablas usaré este [script]() que me formatea un .dat de los que saca cada uno de los scripts de cada programa a una tabla del estilo de markdown.
+Para conseguir las tablas usaré este [script](Scripts/pasoATablas.sh) que me formatea un .dat de los que saca cada uno de los scripts de cada programa a una tabla del estilo de markdown. Y para añadir el 0 líder a los números del tipo **0.loquesea**  usaremos sed, ya que bc los números de este tipo los deja como **.loquesea** y para las tablas quedan más homogéneos.
+
+```
+[antonio@Antonio-Arch ~]$ for file in Datos/*.dat; do sed -i.bak 's/ \./ 0\./g' $file; done
+```
+
+Después de ver que no hemos cometido errores borramos los .bak.
+
+```
+[antonio@Antonio-Arch ~]$ rm Datos/*.bak
+```
 
 ## Apache Benchmark
 
@@ -30,6 +40,8 @@ Instalamos en mi máquina host el paquete apache.
 ```
 
 Este [script](Scripts/ab.sh) que ejecuta 10 veces ab y calcula la media y la desviación típica para un número creciente de peticiones. Aquí se muestran tablas y gráficas
+
+
 
 ## HTTPperf
 
