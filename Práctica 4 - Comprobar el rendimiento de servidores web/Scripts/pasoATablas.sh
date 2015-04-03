@@ -21,6 +21,10 @@ tmp=$( mktemp )
 tmp2=$( mktemp )
 tmp3=$( mktemp )
 
+if ! [ -e "../Datos/$PROGRAMA-${HOSTS[0]}-$PARAMETRO.dat" ]; then echo "../Datos/$PROGRAMA-${HOSTS[0]}-$PARAMETRO.dat no existe"; exit 1; fi
+if ! [ -e "../Datos/$PROGRAMA-${HOSTS[1]}-$PARAMETRO.dat" ]; then echo "../Datos/$PROGRAMA-${HOSTS[0]}-$PARAMETRO.dat no existe"; exit 1; fi
+
+
 cat "../Datos/$PROGRAMA-${HOSTS[0]}-$PARAMETRO.dat" | cut -d" " -f2- > $tmp
 cat "../Datos/$PROGRAMA-${HOSTS[1]}-$PARAMETRO.dat" | cut -d" " -f2- > $tmp2
 
