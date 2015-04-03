@@ -1,9 +1,9 @@
 #!/bin/bash
 
-if [ $# -ne 5 ]
+if [ $# -ne 4 ]
 then
-  echo "Tienes que meter 5 parámetros"
-  echo "./pasoATablas.sh <programa> <parámetro> <nombreTabla> <etiquetaX> <etiquetaY>"
+  echo "Tienes que meter 4 parámetros"
+  echo "./pasoATablas.sh <programa> <parámetro> <nombreTabla> <etiquetaX>"
   exit 1
 fi
 
@@ -15,7 +15,6 @@ PROGRAMA="$1"
 PARAMETRO="$2"
 NOMBRETABLA="$3"
 XLABEL="$4"
-YLABEL="$5"
 
 tmp=$( mktemp )
 tmp2=$( mktemp )
@@ -41,7 +40,7 @@ echo "    <th colspan="2" style="text-align:center">${MAPHOSTS[${HOSTS[0]}]}</th
 echo "    <th colspan="2" style="text-align:center">${MAPHOSTS[${HOSTS[1]}]}</th>"
 echo "  </tr>"
 echo "  <tr>"
-echo "    <th>Peticiones</th>"
+echo "    <th>$XLABEL</th>"
 echo "    <th>Media</th>"
 echo "    <th>Error</th>"
 echo "    <th>Media</th>"
