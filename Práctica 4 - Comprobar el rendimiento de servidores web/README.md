@@ -580,3 +580,7 @@ Obviamos **make install** ya que no quiero instalarlo en mi sistema, me vale con
   </tr>
 </table>
 ![Gráfica openload-avgResponseTime](Imágenes/openload-avgResponseTime.png)
+
+## Conclusión
+
+Como conclusión podemos ver claramente que Haproxy se comporta muy bien como balanceador de carga. Es posible que Nginx sea más potente ya que también es servidor web, pero Haproxy demuestra (al menos en nuestro entorno de pruebas) que es mejor balanceador web que Nginx.
