@@ -22,13 +22,13 @@ y les ponemos un nombre.
 Para conseguir las tablas usaré este [script](Scripts/pasoATablas.sh) que me formatea un .dat de los que saca cada uno de los scripts de cada programa a una tabla del estilo de markdown. Y para añadir el 0 líder a los números del tipo **0.loquesea**  usaremos sed, ya que bc los números de este tipo los deja como **.loquesea** y para las tablas quedan más homogéneos.
 
 ```
-[antonio@Antonio-Arch ~]$ for file in Datos/*.dat; do sed -i.bak 's/ \./ 0\./g' $file; done
+[antonio@Antonio-Arch SWAP1415]$ for file in Práctica\ 4\ -\ Comprobar\ el\ rendimiento\ de\ servidores\ web/Datos/*.dat; do sed -i.bak 's/ \./ 0\./g' $file; done
 ```
 
 Después de ver que no hemos cometido errores borramos los .bak.
 
 ```
-[antonio@Antonio-Arch ~]$ rm Datos/*.bak
+[antonio@Antonio-Arch SWAP1415]$ rm Práctica\ 4\ -\ Comprobar\ el\ rendimiento\ de\ servidores\ web/Datos/*.bak
 ```
 
 ## Apache Benchmark
@@ -62,60 +62,52 @@ Este [script](Scripts/ab.sh) que ejecuta 10 veces ab y calcula la media y la des
    </tr>
   <tr>
     <td>1000
-    <td>0.424
-    <td>0
-    <td>0.522
-    <td>0
-    <td>0.773
-    <td>0
+    <td>162.643
+    <td>22.362
+    <td>53.313
+    <td>4.130
+    <td>123.200
+    <td>4.682
   </tr>
   <tr>
     <td>2000
-    <td>0.973
-    <td>0.424
-    <td>1.032
-    <td>0
-    <td>2.015
-    <td>0.671
+    <td>285.246
+    <td>37.225
+    <td>75.985
+    <td>2.918
+    <td>208.573
+    <td>52.075
   </tr>
   <tr>
     <td>4000
-    <td>2.243
-    <td>0.651
-    <td>2.086
+    <td>522.918
+    <td>46.322
+    <td>115.488
+    <td>2.537
+    <td>375.213
     <td>0
-    <td>5.150
-    <td>0.601
   </tr>
   <tr>
     <td>8000
-    <td>5.257
-    <td>0.583
-    <td>4.452
-    <td>0.450
-    <td>11.102
-    <td>0.912
+    <td>1101.165
+    <td>69.693
+    <td>164.880
+    <td>12.130
+    <td>720.341
+    <td>20.147
   </tr>
   <tr>
     <td>16000
-    <td>10.734
-    <td>1.190
-    <td>12.984
-    <td>0.977
-    <td>21.422
-    <td>0.576
-  </tr>
-  <tr>
-    <td>32000
-    <td>23.342
-    <td>1.173
-    <td>28.294
-    <td>1.413
-    <td>46.019
-    <td>2.423
+    <td>2435.291
+    <td>64.215
+    <td>319.304
+    <td>3.464
+    <td>1500.214
+    <td>31.254
   </tr>
 </table>
 ![Gráfica ab-testTime](Imágenes/ab-testTime.png)
+
 
 <table>
   <tr>
@@ -138,60 +130,52 @@ Este [script](Scripts/ab.sh) que ejecuta 10 veces ab y calcula la media y la des
    </tr>
   <tr>
     <td>1000
-    <td>8.488
-    <td>0.277
-    <td>10.456
-    <td>0.311
-    <td>15.472
-    <td>0.574
+    <td>162643.844
+    <td>22361.969
+    <td>53313.105
+    <td>4130.473
+    <td>123200.201
+    <td>4682.312
   </tr>
   <tr>
     <td>2000
-    <td>9.737
-    <td>4.258
-    <td>10.328
-    <td>0.225
-    <td>20.153
-    <td>6.720
+    <td>142622.953
+    <td>18612.751
+    <td>37992.906
+    <td>1459.516
+    <td>104286.663
+    <td>26037.588
   </tr>
   <tr>
     <td>4000
-    <td>11.216
-    <td>3.262
-    <td>10.429
-    <td>0.181
-    <td>25.754
-    <td>3.012
+    <td>130729.653
+    <td>11580.645
+    <td>28872.183
+    <td>634.531
+    <td>93803.295
+    <td>0
   </tr>
   <tr>
     <td>8000
-    <td>13.144
-    <td>1.460
-    <td>11.130
-    <td>1.127
-    <td>27.756
-    <td>2.281
+    <td>128349.737
+    <td>8711.669
+    <td>20610.020
+    <td>1516.376
+    <td>82142.837
+    <td>2457.245
   </tr>
   <tr>
     <td>16000
-    <td>13.417
-    <td>1.488
-    <td>16.230
-    <td>1.221
-    <td>26.778
-    <td>0.721
-  </tr>
-  <tr>
-    <td>32000
-    <td>14.588
-    <td>0.732
-    <td>17.684
-    <td>0.882
-    <td>28.762
-    <td>1.514
+    <td>121449.543
+    <td>6402.674
+    <td>19956.513
+    <td>216.516
+    <td>76014.25
+    <td>3410.247
   </tr>
 </table>
 ![Gráfica ab-timePerRequest](Imágenes/ab-timePerRequest.png)
+
 
 <table>
   <tr>
@@ -214,60 +198,52 @@ Este [script](Scripts/ab.sh) que ejecuta 10 veces ab y calcula la media y la des
    </tr>
   <tr>
     <td>1000
-    <td>0
-    <td>0
-    <td>0
-    <td>0
-    <td>0
-    <td>0
+    <td>2012.285
+    <td>30.093
+    <td>720.000
+    <td>326.908
+    <td>1113.800
+    <td>205.918
   </tr>
   <tr>
     <td>2000
-    <td>0
-    <td>0
-    <td>0
-    <td>0
-    <td>0
-    <td>0
+    <td>4023.100
+    <td>57.848
+    <td>727.100
+    <td>341.865
+    <td>2686.714
+    <td>749.126
   </tr>
   <tr>
     <td>4000
-    <td>0
-    <td>0
-    <td>0
-    <td>0
-    <td>0
+    <td>8023.000
+    <td>29.512
+    <td>941.800
+    <td>328.728
+    <td>4613.000
     <td>0
   </tr>
   <tr>
     <td>8000
-    <td>0
-    <td>0
-    <td>0
-    <td>0
-    <td>0
-    <td>0
+    <td>16028.375
+    <td>42.373
+    <td>2137.900
+    <td>571.832
+    <td>8204.410
+    <td>306.247
   </tr>
   <tr>
     <td>16000
-    <td>0
-    <td>0
-    <td>0
-    <td>0
-    <td>0
-    <td>0
-  </tr>
-  <tr>
-    <td>32000
-    <td>0
-    <td>0
-    <td>0
-    <td>0
-    <td>0
-    <td>0
+    <td>32103.205
+    <td>31.236
+    <td>4351.500
+    <td>402.847
+    <td>17951.256
+    <td>124.214
   </tr>
 </table>
 ![Gráfica ab-failedRequests](Imágenes/ab-failedRequests.png)
+
 
 <table>
   <tr>
@@ -290,74 +266,80 @@ Este [script](Scripts/ab.sh) que ejecuta 10 veces ab y calcula la media y la des
    </tr>
   <tr>
     <td>1000
-    <td>2358.663
-    <td>76.471
-    <td>1914.464
-    <td>56.585
-    <td>1294.336
-    <td>46.076
+    <td>6.280
+    <td>0.956
+    <td>18.886
+    <td>1.698
+    <td>8.128
+    <td>0.288
   </tr>
   <tr>
     <td>2000
-    <td>2255.956
-    <td>465.938
-    <td>1937.404
-    <td>42.566
-    <td>1086.288
-    <td>282.534
+    <td>7.132
+    <td>0.928
+    <td>26.360
+    <td>1.030
+    <td>10.342
+    <td>3.115
   </tr>
   <tr>
     <td>4000
-    <td>1932.417
-    <td>520.076
-    <td>1918.210
-    <td>34.011
-    <td>786.325
-    <td>83.452
+    <td>7.707
+    <td>0.656
+    <td>34.652
+    <td>0.764
+    <td>10.660
+    <td>0
   </tr>
   <tr>
     <td>8000
-    <td>1537.986
-    <td>148.113
-    <td>1811.966
-    <td>149.597
-    <td>725.619
-    <td>61.653
+    <td>7.295
+    <td>0.454
+    <td>48.764
+    <td>3.313
+    <td>11.242
+    <td>0.357
   </tr>
   <tr>
     <td>16000
-    <td>1511.122
-    <td>187.048
-    <td>1239.216
-    <td>93.159
-    <td>747.425
-    <td>20.073
-  </tr>
-  <tr>
-    <td>32000
-    <td>1374.406
-    <td>69.817
-    <td>1133.998
-    <td>60.784
-    <td>697.277
-    <td>36.610
+    <td>7.341
+    <td>0.524
+    <td>50.114
+    <td>0.544
+    <td>12.452
+    <td>0.274
   </tr>
 </table>
 ![Gráfica ab-requestsPerSecond](Imágenes/ab-requestsPerSecond.png)
 
 
 
-## HTTPperf
 
-Instalamos httperf desde los repositorios oficiales
+## Siege
+
+Instalamos siege desde los repositorios oficiales
 
 ```
-[antonio@Antonio-Arch ~]$ sudo pacman -S httperf
+[antonio@Antonio-Arch ~]$ sudo pacman -S siege
 ```
 
-Y usando este [script](Scripts/httperf.sh), que está adaptado del de ab, sacamos estas tablas y gráficas.
+Esta vez, por falta de tiempo, no usaremos script. Después de probar la misma página usando 10 usuarios concurrentes (Siege es muy duro y con 15 ya no era capaz la granja de servirlos) durante 60 segundos los resultados son estos.
 
-## Openload
+```
+[antonio@Antonio-Arch ~]$ siege -c 10 -t60S -v www.servidorswap.net
+```
+
+![Gráfica siege-availability](Imágenes/siege-availability.png)
+
+![Gráfica siege-failedRequests](Imágenes/siege-failedRequests.png)
+
+![Gráfica siege-longestTransaction](Imágenes/siege-longestTransaction.png)
+
+![Gráfica siege-successful](Imágenes/siege-successful.png)
+
+![Gráfica siege-transactionRate](Imágenes/siege-transactionRate.png)
+
+## OpenWebload
 
 Para instalar [OpenWebLoad](http://openwebload.sourceforge.net/) en mi máquina host descargaré los fuentes desde la web oficial y los compilaré, aunque haciendo un pequeño cambio, ya que gcc sigue mucho los estándares de C y no comprende una línea de código.
 
