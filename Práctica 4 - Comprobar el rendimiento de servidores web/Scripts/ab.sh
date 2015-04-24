@@ -25,22 +25,20 @@ function desviacionTipica()
   echo "$desv"
 }
 
-# PETICIONES=( 1000 2000 4000 8000 16000 )
-PETICIONES=( 16000 )
-# PETICIONES=( 8000 16000 )
+PETICIONES=( 1000 2000 4000 8000 16000 )
 
-PRUEBAS=3
-declare -A URLS=( ["servidor"]="http://debian1/index.php" )
+
+PRUEBAS=10
 # declare -A URLS=( ["granja_nginx"]="http://www.servidorswap.net/index.php" ["servidor"]="http://debian1/index.php" )
-# declare -A URLS=( ["granja_haproxy"]="http://www.servidorswap.net/index.php")
+declare -A URLS=( ["granja_haproxy"]="http://www.servidorswap.net/index.php")
 
-# for destino in ${!URLS[@]}
-# do
-#   if [ -a "../Datos/ab-$destino-testTime.dat" ]; then rm ../Datos/ab-$destino-testTime.dat; fi
-#   if [ -a "../Datos/ab-$destino-failedRequests.dat" ]; then rm ../Datos/ab-$destino-failedRequests.dat; fi
-#   if [ -a "../Datos/ab-$destino-requestsPerSecond.dat" ]; then rm ../Datos/ab-$destino-requestsPerSecond.dat; fi
-#   if [ -a "../Datos/ab-$destino-timePerRequest.dat" ]; then rm ../Datos/ab-$destino-timePerRequest.dat; fi
-# done
+for destino in ${!URLS[@]}
+do
+  if [ -a "../Datos/ab-$destino-testTime.dat" ]; then rm ../Datos/ab-$destino-testTime.dat; fi
+  if [ -a "../Datos/ab-$destino-failedRequests.dat" ]; then rm ../Datos/ab-$destino-failedRequests.dat; fi
+  if [ -a "../Datos/ab-$destino-requestsPerSecond.dat" ]; then rm ../Datos/ab-$destino-requestsPerSecond.dat; fi
+  if [ -a "../Datos/ab-$destino-timePerRequest.dat" ]; then rm ../Datos/ab-$destino-timePerRequest.dat; fi
+done
 
 
 for peticiones in ${PETICIONES[@]}
