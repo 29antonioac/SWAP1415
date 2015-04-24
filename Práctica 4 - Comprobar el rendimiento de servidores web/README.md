@@ -312,9 +312,6 @@ Este [script](Scripts/ab.sh) que ejecuta 10 veces ab y calcula la media y la des
 </table>
 ![Gráfica ab-requestsPerSecond](Imágenes/ab-requestsPerSecond.png)
 
-
-
-
 ## Siege
 
 Instalamos siege desde los repositorios oficiales
@@ -328,14 +325,93 @@ Esta vez, por falta de tiempo, no usaremos script. Después de probar la misma p
 ```
 [antonio@Antonio-Arch ~]$ siege -c 10 -t60S -v www.servidorswap.net
 ```
+<table>
+  <tr>
+    <th colspan=3 style=text-align:center>Disponibilidad</th>
+  </tr>
+  <tr>
+    <th colspan=1 style=text-align:center>Servidor web</th>
+    <th colspan=1 style=text-align:center>Granja Nginx</th>
+    <th colspan=1 style=text-align:center>Granja Haproxy</th>
+  </tr>
+  <tr>
+    <td>25.00
+    <td>66.67
+    <td>100
+  </tr>
+</table>
 
 ![Gráfica siege-availability](Imágenes/siege-availability.png)
 
+<table>
+  <tr>
+    <th colspan=3 style=text-align:center>Peticiones fallidas</th>
+  </tr>
+  <tr>
+    <th colspan=1 style=text-align:center>Servidor web</th>
+    <th colspan=1 style=text-align:center>Granja Nginx</th>
+    <th colspan=1 style=text-align:center>Granja Haproxy</th>
+  </tr>
+  <tr>
+    <td>9
+    <td>6
+    <td>0
+  </tr>
+</table>
+
 ![Gráfica siege-failedRequests](Imágenes/siege-failedRequests.png)
+
+<table>
+  <tr>
+    <th colspan=3 style=text-align:center>Transacción más larga</th>
+  </tr>
+  <tr>
+    <th colspan=1 style=text-align:center>Servidor web</th>
+    <th colspan=1 style=text-align:center>Granja Nginx</th>
+    <th colspan=1 style=text-align:center>Granja Haproxy</th>
+  </tr>
+  <tr>
+    <td>28.47
+    <td>29.21
+    <td>22.34
+  </tr>
+</table>
 
 ![Gráfica siege-longestTransaction](Imágenes/siege-longestTransaction.png)
 
+<table>
+  <tr>
+    <th colspan=3 style=text-align:center>Peticiones correctas</th>
+  </tr>
+  <tr>
+    <th colspan=1 style=text-align:center>Servidor web</th>
+    <th colspan=1 style=text-align:center>Granja Nginx</th>
+    <th colspan=1 style=text-align:center>Granja Haproxy</th>
+  </tr>
+  <tr>
+    <td>3
+    <td>12
+    <td>29
+  </tr>
+</table>
+
 ![Gráfica siege-successful](Imágenes/siege-successful.png)
+
+<table>
+  <tr>
+    <th colspan=3 style=text-align:center>Transacciones por segundo</th>
+  </tr>
+  <tr>
+    <th colspan=1 style=text-align:center>Servidor web</th>
+    <th colspan=1 style=text-align:center>Granja Nginx</th>
+    <th colspan=1 style=text-align:center>Granja Haproxy</th>
+  </tr>
+  <tr>
+    <td>0.05
+    <td>0.20
+    <td>0.49
+  </tr>
+</table>
 
 ![Gráfica siege-transactionRate](Imágenes/siege-transactionRate.png)
 
