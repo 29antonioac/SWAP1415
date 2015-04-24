@@ -1,8 +1,8 @@
 #!/bin/gnuplot
 
 # Parámetros comunes a todas las gráficas
-set xr [0:35000]
-set xtics ( 1000,2000,4000,8000,16000,32000 );
+set xr [0:17000]
+set xtics ( 1000,2000,4000,8000,16000 );
 set xtics font ",11"
 set xlabel "Peticiones totales"
 set term png size 1280,768
@@ -20,7 +20,7 @@ plot '../Datos/ab-servidor-testTime.dat'  using 1:2:3 notitle with yerrorbars, \
 '../Datos/ab-granja_haproxy-testTime.dat' using 1:2 title 'Granja haproxy' with lines
 
 # Time per request
-set ylabel "Tiempo por petición (segundos)"
+set ylabel "Tiempo por petición (milisegundos)"
 set output '../Imágenes/ab-timePerRequest.png'
 
 plot '../Datos/ab-servidor-timePerRequest.dat'  using 1:2:3 notitle with yerrorbars, \

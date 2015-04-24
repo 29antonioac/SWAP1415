@@ -25,18 +25,22 @@ function desviacionTipica()
   echo "$desv"
 }
 
-PETICIONES=( 1000 2000 4000 8000 16000 32000 )
-PRUEBAS=10
-declare -A URLS=( ["granja_nginx"]="http://www.servidorswap.net/index.html" ["servidor"]="http://debian1/index.html" )
-# declare -A URLS=( ["granja_haproxy"]="http://www.servidorswap.net/index.html")
+# PETICIONES=( 1000 2000 4000 8000 16000 )
+PETICIONES=( 16000 )
+# PETICIONES=( 8000 16000 )
 
-for destino in ${!URLS[@]}
-do
-  if [ -a "  ../Datos/ab-$destino-testTime.dat" ]; then rm ../Datos/ab-$destino-testTime.dat; fi
-  if [ -a "  ../Datos/ab-$destino-failedRequests.dat" ]; then rm ../Datos/ab-$destino-failedRequests.dat; fi
-  if [ -a "  ../Datos/ab-$destino-requestsPerSecond.dat" ]; then rm ../Datos/ab-$destino-requestsPerSecond.dat; fi
-  if [ -a "  ../Datos/ab-$destino-timePerRequest.dat" ]; then rm ../Datos/ab-$destino-timePerRequest.dat; fi
-done
+PRUEBAS=3
+declare -A URLS=( ["servidor"]="http://debian1/index.php" )
+# declare -A URLS=( ["granja_nginx"]="http://www.servidorswap.net/index.php" ["servidor"]="http://debian1/index.php" )
+# declare -A URLS=( ["granja_haproxy"]="http://www.servidorswap.net/index.php")
+
+# for destino in ${!URLS[@]}
+# do
+#   if [ -a "../Datos/ab-$destino-testTime.dat" ]; then rm ../Datos/ab-$destino-testTime.dat; fi
+#   if [ -a "../Datos/ab-$destino-failedRequests.dat" ]; then rm ../Datos/ab-$destino-failedRequests.dat; fi
+#   if [ -a "../Datos/ab-$destino-requestsPerSecond.dat" ]; then rm ../Datos/ab-$destino-requestsPerSecond.dat; fi
+#   if [ -a "../Datos/ab-$destino-timePerRequest.dat" ]; then rm ../Datos/ab-$destino-timePerRequest.dat; fi
+# done
 
 
 for peticiones in ${PETICIONES[@]}
@@ -48,17 +52,19 @@ do
     requestsPerSecond=()
     timePerRequest=()
     salida=""
-    echo "Probando con $peticiones peticiones en $destino..."
-    
+    echo -n "Probando con $peticiones peticiones en $destino... "
+
     # Realizar número de pruebas y acumular tiempos
     for (( prueba=1; prueba<=$PRUEBAS; prueba++ ))
     do
-      salida=`ab -n $peticiones -c 20 ${URLS[$destino]} 2> /dev/null`
+      salida=`ab -n $peticiones -c 1000 -r -s 60 ${URLS[$destino]} 2> /dev/null`
       testTime+=(`echo "$salida" | egrep "Time taken for tests:" | tr -s ' ' | cut -d" " -f5`)
       failedRequests+=(`echo "$salida" | egrep "Failed requests:" | tr -s ' ' | cut -d" " -f3`)
       requestsPerSecond+=(`echo "$salida" | egrep "Requests per second:" | tr -s ' ' | cut -d" " -f4`)
       timePerRequest+=(`echo "$salida" | egrep "Time per request:" | egrep "\(mean\)" | tr -s ' ' | cut -d" " -f4`)
+      echo -n $prueba...
     done
+    echo
 
     # Calcular media aritmética
     media_testTime=`mediaAritmetica testTime[@]`
