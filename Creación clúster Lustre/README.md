@@ -4,11 +4,11 @@ En este trabajo optativo vamos a crear un pequeño clúster con el sistema de ar
 
 Nuestro clúster constará de 4 máquinas:
 
-- La máquina cliente.
+- 2 máquinas cliente.
 - La máquina MGS/MDT, con un RAID1 de 2 discos con metadatos.
 - 2 máquinas OSS, también con RAID1 de 2 discos cada uno con los datos.
 
-Las máquinas tendrán todas un segundo adaptador de red en modo **sólo anfitrión** para poder conectarnos por ssh y tener una consola decente y con posibilidad de copiar y pegar.
+La máquina MGS/MDT tendrá segundo adaptador de red en modo **sólo anfitrión** para poder conectarnos por ssh y tener una consola decente y con posibilidad de copiar y pegar. Tanto ésta como todas las demás tendrán otro adaptador **red interna**, en MGS/MDT será eth2 y en las demás eth1.
 
 ## Preparando herramientas
 
@@ -109,19 +109,19 @@ Creamos el fichero **/etc/modprobe.d/lustre.conf** con este contenido:
 [root@localhost ~]# nano /etc/modprobe.d/lustre.conf
 -----------------------
 
-options lnet networks=tcp0(eth0)
+options lnet networks=tcp0(eth2)
 ```
 
-Ahora apagamos la máquina y la clonamos, reinicializando las MAC de las tarjetas de red y haciendo una clonación completa.
+Ahora apagamos la máquina y la clonamos 4 veces, reinicializando las MAC de las tarjetas de red y haciendo clonaciones completas. Así no tendremos que volver a preparar las máquinas :).
 
 ## Creación del servidor MGS/MDT
 
-Para este servidor usaremos la máquina original, no la clonada. Introducimos 2 discos de 2GB para formar un RAID1 tal como hicimos en la [Práctica 6](../"Práctica 6 - Discos en RAID")
+Para este servidor usaremos la máquina original, no la clonada. Introducimos 2 discos de 2GB para formar un RAID1 tal como hicimos en la [Práctica 6](../"Práctica 6 - Discos en RAID"). Después de crear el RAID reiniciamos, ya que el nombre del array cambiará.
 
 Ahora sobre el RAID1 creamos el sistema de archivos Lustre para MGS y MDT. El nombre que elegimos para el clúster es **swap**.
 
 ```
-[root@localhost ~]# mkfs.lustre --fsname=swap --mgs --mdt --index=0 /dev/md0
+[root@localhost ~]# mkfs.lustre --fsname=swap --mgs --mdt --index=0 /dev/md127
 ```
 
 Ahora montamos ese dispositivo en una carpeta de nuestro sistema.
@@ -137,8 +137,50 @@ Y editamos **/etc/fstab** para automontar al inicio
 [root@localhost ~]# nano /etc/fstab
 -----------------------
 
-/dev/md0                /mdt                    lustre  defaults        0 0
+/dev/md0                /mdt                    lustre  auto,defaults        0 0
 ```
+
+## Creación de servidores OSS/OST
+
+Es posible que después de clonar haya que tocar un poco el aspecto de la red (adaptadores con nombre cambiado y echar arriba la red interna), pero eso ya lo hemos trabajado en prácticas. Aún así, en esta versión de CentOS sólo hay que editar el archivo **/etc/sysconfig/network-scripts/ifcfg-(nombre de la interfaz)** y poner los parámetros necesarios con este esqueleto:
+
+```
+DEVICE=eth1
+TYPE=Ethernet
+ONBOOT=yes
+NM_CONTROLLED=yes
+BOOTPROTO=none
+NETWORK=192.168.1.0
+NETMASK=255.255.255.0
+IPADDR=192.168.1.102
+GATEWAY=192.168.1.1
+```
+
+Después de comprobar que la red interna va sin problemas (la conexión a internet no la vamos a arreglar puesto que no hace falta, aunque sería sólo poner las DNS en orden), creamos el RAID1 pertinente con los 2 discos que hemos agregado al igual que en MGS/MDT, reiniciamos y le damos formato:
+
+```
+[root@localhost ~]# mkfs.lustre --fsname=swap --mgsnode=192.168.1.100@tcp --ost --index=1 /dev/md127
+```
+
+Fijarse bien que hemos puesto en mgsnode la dirección del nodo MGS y como índice 1. Esto no puede coincidir en ningún nodo.
+
+Ahora montamos en una carpeta de sistema el sistema de archivos
+
+```
+[root@localhost ~]# mkdir /lustre
+[root@localhost ~]# mount -t lustre /dev/md127 /lustre/
+```
+
+Y añadimos la línea correspondiente a **/etc/fstab**
+
+```
+[root@localhost ~]# nano /etc/fstab
+-----------------------
+
+/dev/md0                /lustre                    lustre  auto,defaults        0 0
+```
+
+
 
 ## Bibliografía
 
