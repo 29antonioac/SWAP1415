@@ -5,7 +5,7 @@ En este trabajo optativo vamos a crear un pequeño clúster con el sistema de ar
 Nuestro clúster constará de 4 máquinas:
 
 - La máquina cliente.
-- La máquina MGS/MDS, con un RAID1 de 2 discos con metadatos.
+- La máquina MGS/MDT, con un RAID1 de 2 discos con metadatos.
 - 2 máquinas OSS, también con RAID1 de 2 discos cada uno con los datos.
 
 Las máquinas tendrán todas un segundo adaptador de red en modo **sólo anfitrión** para poder conectarnos por ssh y tener una consola decente y con posibilidad de copiar y pegar.
@@ -109,11 +109,36 @@ Creamos el fichero **/etc/modprobe.d/lustre.conf** con este contenido:
 [root@localhost ~]# nano /etc/modprobe.d/lustre.conf
 -----------------------
 
-chkconfig iptables off
+options lnet networks=tcp0(eth0)
 ```
 
 Ahora apagamos la máquina y la clonamos, reinicializando las MAC de las tarjetas de red y haciendo una clonación completa.
 
+## Creación del servidor MGS/MDT
+
+Para este servidor usaremos la máquina original, no la clonada. Introducimos 2 discos de 2GB para formar un RAID1 tal como hicimos en la [Práctica 6](../"Práctica 6 - Discos en RAID")
+
+Ahora sobre el RAID1 creamos el sistema de archivos Lustre para MGS y MDT. El nombre que elegimos para el clúster es **swap**.
+
+```
+[root@localhost ~]# mkfs.lustre --fsname=swap --mgs --mdt --index=0 /dev/md0
+```
+
+Ahora montamos ese dispositivo en una carpeta de nuestro sistema.
+
+```
+[root@localhost ~]# mkdir /mdt
+[root@localhost ~]# mount -t lustre /dev/md0 /mdt/
+```
+
+Y editamos **/etc/fstab** para automontar al inicio
+
+```
+[root@localhost ~]# nano /etc/fstab
+-----------------------
+
+/dev/md0                /mdt                    lustre  defaults        0 0
+```
 
 ## Bibliografía
 
