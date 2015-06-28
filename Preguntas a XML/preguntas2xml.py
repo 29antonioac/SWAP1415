@@ -2,6 +2,7 @@
 
 import sys,itertools
 from os.path import basename
+import re
 
 def grouper(n, iterable, fillvalue=None):
     """grouper(3, 'ABCDEFG', 'x') --> ABC DEF Gxx"""
@@ -22,12 +23,24 @@ with open(output,"w+") as f:
     for pregunta in preguntas:
         num_preguntas += 1
         f.write("\t<pregunta>\n")
-        f.write("\t\t<enunciado> " + pregunta[0] + "</enunciado>\n")
-        f.write("\t\t<opcionA> " + pregunta[1] + "</opcionA>\n")
-        f.write("\t\t<opcionB> " + pregunta[2] + "</opcionB>\n")
-        f.write("\t\t<opcionC> " + pregunta[3] + "</opcionC>\n")
-        f.write("\t\t<opcionD> " + pregunta[4] + "</opcionD>\n")
-        f.write("\t\t<solucion> " + pregunta[5] + "</solucion>\n")
+        f.write("\t\t<enunciado>" + pregunta[0] + "</enunciado>\n")
+        f.write("\t\t<opcionA>" + pregunta[1] + "</opcionA>\n")
+        f.write("\t\t<opcionB>" + pregunta[2] + "</opcionB>\n")
+        f.write("\t\t<opcionC>" + pregunta[3] + "</opcionC>\n")
+        f.write("\t\t<opcionD>" + pregunta[4] + "</opcionD>\n")
+
+        # Busco la solución (podría estar mejor hecho, está para salir del paso)
+        sol = re.search("(a|b|c|d|A|B|C|D|1|2|3|4).?$",str(pregunta[5]))
+        if sol:
+            f.write("\t\t<solucion>" + sol.group(0)[0].upper() + "</solucion>\n")
+        else:
+            sol = re.search("^(a|b|c|d|A|B|C|D|1|2|3|4)",str(pregunta[5]))
+            if sol:
+                f.write("\t\t<solucion>" + sol.group(0)[0].upper() + "</solucion>\n")
+            else:
+                f.write("\t\t<solucion>" + pregunta[5] + "</solucion>\n")
+                print("No he encontrado aquí la solución!",pregunta[5])
+
         f.write("\t</pregunta>\n")
 
 with open(output,"r+") as f:
@@ -37,16 +50,5 @@ with open(output,"r+") as f:
     f.write("<tema titulo=\"\" cantidad_preguntas=\"" + str(num_preguntas) + "\">\n")
     f.write(contenido)
 
-
-
-
-
-# for pregunta,A,B,C,D,resp in lines:
-#    print("P:",pregunta)
-#    print("A:",A)
-#    print("B:",B)
-#    print("C:",C)
-#    print("D:",D)
-#    print("Respuesta:",resp)
-
-# print(lines)
+print("¡Revisa si están correctamente! Este programa no es perfecto")
+print("¡No olvides insertar el título del tema!")
