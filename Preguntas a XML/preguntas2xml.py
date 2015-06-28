@@ -42,6 +42,7 @@ with open(output,"w+") as f:
                 print("No he encontrado aquí la solución!",pregunta[5])
 
         f.write("\t</pregunta>\n")
+    f.write("</tema>")
 
 with open(output,"r+") as f:
     contenido = f.read()
